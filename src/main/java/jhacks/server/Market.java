@@ -31,7 +31,6 @@ public class Market {
   }
 
   public void addBuyOrder(String name, double price, int quantity) {
-    System.out.println("adding buy order: " + name);
     if (marketInfo.get(name) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
@@ -144,7 +143,6 @@ public class Market {
   }
   
   public Map<String, List<Double>> getBuyList(Map<String, Pair<List<Order>, List<Order>>> marketInfo) {
-	  System.out.println(marketInfo);
 	  Map<String, List<Double>> buyList = new HashMap<String,List<Double>>();
 	  for(String key: marketInfo.keySet() ){
 		  List<Double> prices = new ArrayList<>();
