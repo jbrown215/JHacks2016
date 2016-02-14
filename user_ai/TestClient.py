@@ -4,25 +4,29 @@ import json
 import random
 
 CURRENT_ORDER_ID = 0
+COMPANIES = ["GOOG","MOOG","FOOD","THROOG","BOOG"]
 
 class Echo(Protocol):
 
     def buy(self, symbol, price, amount):
         global CURRENT_ORDER_ID
-        print("Getting ready to send a message")
+        print("Getting ready to buy!")
         message = {"action":"buy", "security":symbol, "price":price, "quantity":amount, "orderNumber":CURRENT_ORDER_ID} 
         encodedMessage = json.dumps(message)
         self.transport.write(encodedMessage + "\n")
-        print("sent a message!")
         CURRENT_ORDER_ID += 1
 
     def sell(self, symbol, price, amount):
         global CURRENT_ORDER_ID
-        self.transport.write(order.toJSON()+ "\n")
+        print("Getting ready to sell!")
+        message = {"action":"sell", "security":symbol, "price":price, "quantity":amount, "orderNumber":CURRENT_ORDER_ID} 
+        encodedMessage = json.dumps(message)
+        self.transport.write(encodedMessage + "\n")
         CURRENT_ORDER_ID += 1
 
     #Runs every time a message is sent out from the server
     def dataReceived(self, data):
+	global COMPANIES
         print("got stuff!")
         try:
             for line in data.split("\n"):
@@ -32,12 +36,10 @@ class Echo(Protocol):
                     print(data)
                     line = json.loads(line.strip())
                     print("worked the data!")
-                    #if (data["subject"] == "state"):
-                    #    return self.workData(data)
-                    #else:
-                    #    print ("not in state mode")
-                    self.buy("MOOG", random.randint(50, 100), 23)
-                    self.buy("GOOG", random.randint(50, 100), 10)
+		    comp1 = companies[random.randint(len(companies)-1)]
+		    comp2 = companies[random.randint(len(companies)-1)]
+                    self.buy(comp1, random.randint(25, 75), 23)
+                    self.sell(comp2, random.randint(25, 75), 10)
         except ValueError:
             print "nah"
 
