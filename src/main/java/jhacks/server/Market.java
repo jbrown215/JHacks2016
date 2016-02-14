@@ -21,25 +21,48 @@ public class Market {
     this.stockNames = stockNames;
   }
   
-  public void addBuyOrder(String name, double price, int quantity) {
-    if (marketInfo.get(name) == null) {
+  public void addBuyOrder(String securityName, double price, int quantity, int orderID, String userName) {
+    if (marketInfo.get(securityName) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
-      marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
+      marketInfo.put(securityName, new Pair<List<Order>, List<Order>>(bids, asks));
     }
     
-    Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
-    securities.getLeft().add(new Order(name, price, quantity));
+    Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
+    securities.getLeft().add(new Order(securityName, price, quantity, orderID, userName));
   }
   
-  public void addSellOrder(String name, double price, int quantity) {
-    if (marketInfo.get(name) == null) {
+  public void addSellOrder(String securityName, double price, int quantity, int orderID, String userName) {
+    if (marketInfo.get(securityName) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
-      marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
+      marketInfo.put(securityName, new Pair<List<Order>, List<Order>>(bids, asks));
     }
     
-    Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
-    securities.getRight().add(new Order(name, price, quantity));
+    Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
+    securities.getRight().add(new Order(securityName, price, quantity, orderID, userName));
+  }
+  
+  public void cancelOrder(String securityName, double price, int quantity, int orderID, String userName) {
+	Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
+	Order temp = new Order(securityName, price, quantity, orderID, userName);
+	if (securities.getRight().contains(temp)) {
+		securities.getRight().remove(temp);
+		System.out.println("Cancel Success");
+	}else if (securities.getLeft().contains(temp)) {
+		securities.getLeft().remove(temp);
+		System.out.println("Cancel Success");
+	}else {
+		System.out.println("Could not locate order");
+		System.out.println("Cancel Unsuccessful");
+	}
+  }
+  
+  public void unPack(){
+	  return;
+  }
+  
+  public void Pack(){
+	  return;
   }
 }
