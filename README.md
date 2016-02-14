@@ -54,5 +54,6 @@ Requirements from user:
 runnable bot
 ./run.sh script 
 adi
+words
 Ayelet
 Jon
