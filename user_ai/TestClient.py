@@ -36,8 +36,8 @@ class Echo(Protocol):
                     print(data)
                     line = json.loads(line.strip())
                     print("worked the data!")
-		    comp1 = COMPANIES[random.randint(len(COMPANIES)-1)]
-		    comp2 = COMPANIES[random.randint(len(COMPANIES)-1)]
+		    comp1 = COMPANIES[random.randint(0,len(COMPANIES)-1)]
+		    comp2 = COMPANIES[random.randint(0,len(COMPANIES)-1)]
                     self.buy(comp1, random.randint(25, 75), 23)
                     self.sell(comp2, random.randint(25, 75), 10)
         except ValueError:
