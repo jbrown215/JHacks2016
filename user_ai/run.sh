@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python to_Java.py
+python TestClient.py

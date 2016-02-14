@@ -23,7 +23,7 @@ public class ServerReader implements Runnable {
   public void connect(String name) {
     synchronized (game.getTeamArray()) {
       game.getTeamArray().add(name);
-      System.out.println("Name"+name);
+      System.out.println("Name" + name);
     }
   }
 
@@ -53,6 +53,8 @@ public class ServerReader implements Runnable {
       socketReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
       while (true) {
         String str = socketReader.readLine();
+        if (str == null)
+          continue;
         JSONObject json = new JSONObject(str);
         if (json.getString("action").equals("connect")) {
           this.connect(json.getString("name"));
@@ -61,7 +63,7 @@ public class ServerReader implements Runnable {
         } else if (json.getString("action").equals("sell")) {
           this.sell(json.getString("security"), json.getDouble("price"), json.getInt("quantity"));
         } else if (json.getString("action").equals("cancel")) {
-          System.out.println("ID"+json.get("id"));
+          System.out.println("ID" + json.get("id"));
           this.cancel(json.getString("id"));
         }
       }
