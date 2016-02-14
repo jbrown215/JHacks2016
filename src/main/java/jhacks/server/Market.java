@@ -1,5 +1,6 @@
 package jhacks.server;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,12 +20,14 @@ public class Market {
 
   private Map<String, Double> securities = new HashMap<>();
   private Set<String> stockNames = new HashSet<String>();
+  private List<Socket> sockets;
 
   private User client1;
   private User client2;
 
-  public Market(Set<String> stockNames) {
+  public Market(Set<String> stockNames, List<Socket> sockets) {
     this.stockNames = stockNames;
+    this.sockets = sockets;
   }
 
   public void addBuyOrder(String name, double price, int quantity) {
@@ -39,7 +42,10 @@ public class Market {
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
     securities.getLeft().add(order);
-    attemptToMakeTrade(order, true);
+    //attemptToMakeTrade(order, true);
+    
+    // #NOTIFY all the users
+    ServerWriter.writeTrade(sockets, name, price);
   }
 
   public void addSellOrder(String name, double price, int quantity) {
@@ -53,7 +59,7 @@ public class Market {
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
     securities.getRight().add(order);
-    attemptToMakeTrade(order, false);
+    //attemptToMakeTrade(order, false);
   }
 
   /**

@@ -6,6 +6,7 @@ package jhacks.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -16,20 +17,21 @@ import org.json.simple.JSONObject;
 
 public class ServerWriter {
 
-	public static void writeTrade( List<Socket> sockets , String security, Double price) {
-		
-	    Socket sahket = sockets.get(0);
-	    OutputStream toServer = sahket.getOutputStream();
-        DataOutputStream out = new DataOutputStream(toServer);
-				
-		PrintWriter tradeRequest = new PrintWriter(sahket.getOutputStream(), true);
-		tradeRequest.append(Main.getTradeMessage(security,price).toString());
-		System.out.println( sahket.getOutputStream() );
-	       
-	}
-		
-	public static void readTrade( List<Sockets> sockets, String security, Double price) {
-		Socket sahket = sockets.get(0);
-		
-	}
+  public static void writeTrade(List<Socket> sockets, String security, Double price) {
+
+    for (Socket sahket : sockets) {
+      OutputStream toServer;
+      try {
+        toServer = sahket.getOutputStream();
+
+        PrintWriter tradeRequest = new PrintWriter(sahket.getOutputStream(), true);
+        tradeRequest.println(Main.getTradeMessage(security, price).toString());
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+
+  }
+
 }
