@@ -43,6 +43,7 @@ public class ServerWriter {
 			  toServer = saaket.getOutputStream();
 			  PrintWriter stateRequest = new PrintWriter(saaket.getOutputStream(), true);
 			  stateRequest.println(Main.getStateMessage(buyList, sellList).toString());
+			  System.out.println("STATE MESSAGE"+Main.getStateMessage(buyList, sellList).toString());
 		  } catch (IOException e) {
 			  e.printStackTrace();
 		  }

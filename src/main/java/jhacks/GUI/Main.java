@@ -9,7 +9,9 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -113,10 +115,15 @@ public class Main extends ApplicationFrame {
 	private static final Random random = new Random();
 	private Timer timer;
 	private static double price;
+	private static int numWindow = 5;
+	private DynamicTimeSeriesCollection dataset;
+	final Queue<Map<String, Double>> dataQueue;
+	private static String[] name;
 
 	public Main(final String title, double price) {
 		super(title);
-		final DynamicTimeSeriesCollection dataset = new DynamicTimeSeriesCollection(1, COUNT, new Second());
+		this.dataQueue = new LinkedList<>();
+		dataset = new DynamicTimeSeriesCollection(1, COUNT, new Second());
 		dataset.setTimeBase(new Second(0, 0, 0, 1, 1, 2011));
 		dataset.addSeries(gaussianData(), 0, "Stocks");
 		JFreeChart chart = createChart(dataset);
@@ -165,12 +172,18 @@ public class Main extends ApplicationFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				newData[0] = randomValue();
-				dataset.advanceTime();
-				dataset.appendData(newData);
+				synchronized (dataQueue) {
+					while (!dataQueue.isEmpty()) {
+						Map<String, Double> data = dataQueue.poll();
+						float val = data.get("price").floatValue();
+						newData[0] = val;
+						dataset.advanceTime();
+						dataset.appendData(newData);
+					}
+				}
 			}
 		});
-		updateGraph(price, dataset);
+		//updateGraph(price, dataset);
 	}
 
 	private void updateGraph(double value, DynamicTimeSeriesCollection dataset) {
@@ -179,7 +192,7 @@ public class Main extends ApplicationFrame {
 		dataset.advanceTime();
 		dataset.appendData(newData);
 	}
-	
+
 	private float randomValue() {
 		return (float) price; // (random.nextGaussian() * MINMAX / 3);
 	}
@@ -194,8 +207,8 @@ public class Main extends ApplicationFrame {
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart result = ChartFactory.createTimeSeriesChart(TITLE, "Time", "Price", dataset, true,
-				true, false);
+		final JFreeChart result = ChartFactory.createTimeSeriesChart(TITLE, "Time", "Price", dataset, true, true,
+				false);
 		final XYPlot plot = result.getXYPlot();
 		ValueAxis domain = plot.getDomainAxis();
 		domain.setAutoRange(true);
@@ -213,13 +226,23 @@ public class Main extends ApplicationFrame {
 
 			@Override
 			public void run() {
-				Main demo = new Main("Google",20.0);
+				name = new String[5];
+				
+				name[0] = "google";
+				name[1] = "moogle";
+				name[2] = "foogle";
+				name[3] = "throogle";
+				name[4] = "boogle";
+				for(int i = 0; i< numWindow; i++){
+				Main demo = new Main(name[i], 20.0);
 				demo.pack();
 				RefineryUtilities.centerFrameOnScreen(demo);
 				demo.setVisible(true);
+				Thread t = new Thread(new TestDataGenerator(demo.dataQueue));
 				demo.start();
+				t.start();
+				}
 
-				
 			}
 		});
 	}

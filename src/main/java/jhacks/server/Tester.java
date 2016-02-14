@@ -28,6 +28,6 @@ public class Tester {
 		sellMap.put("fb", test); sellMap.put("apple", test2); sellMap.put("google", test);
 		Map state = Main.sendStateMessage(buyMap, sellMap);
 //		JSONObject trade = Main.sendTradeMessage("fb", 5.);
-		System.out.println(state);
+		System.out.println("STATE"+state);
 	}
 }
