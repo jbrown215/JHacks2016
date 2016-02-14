@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import jhacks.utils.Pair;
 
@@ -28,7 +29,8 @@ public class Market {
       ArrayList<Order> asks = new ArrayList<Order>();
       marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
-    String id = "Pass";
+    String id = UUID.randomUUID().toString();
+;
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     securities.getLeft().add(new Order(name, price, quantity, id));
   }
@@ -39,16 +41,19 @@ public class Market {
       ArrayList<Order> asks = new ArrayList<Order>();
       marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
-    String id = "Pass";
+    String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     securities.getRight().add(new Order(name, price, quantity, id));
   }
   
-  public void cancelOrder(int id) {
+  public void cancelOrder(String id) {
     for (Pair<List<Order>,List<Order>> val: marketInfo.values()) {
-    	for(Order ord: val.getLeft()) {
-    		System.out.println(ord.getId());
+    	for(Order buyOrd: val.getLeft()) {
+    		if(id.equals(buyOrd)) {
     	};
+    	for(Order sellOrd: val.getRight()){
+    		;
+    	}
     }
     
   }
