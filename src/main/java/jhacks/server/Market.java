@@ -24,9 +24,11 @@ public class Market {
   private User client1;
   private User client2;
 
-  public Market(Map<String, Double> securities, List<Socket> sockets) {
-    this.securities = securities;
-    this.sockets = sockets;
+  public Market(List<Socket> sockets, User client1, User client2) {
+	  this.initializeMap();
+	  this.sockets = sockets;
+	  this.client1 = client1;
+	  this.client2 = client2;
   }
   
   public void initializeMap(){

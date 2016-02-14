@@ -10,17 +10,19 @@ public class User {
   private Set<Order> orders;
   private String name;
   private int score;
+  private Market marketplace;
   
-  public User(Set<String> stockNames) {
+  public User(Set<String> stockNames, Market marketplace) {
     holdings = new HashMap<String, Integer>();
     orders = new HashSet<Order>();
     for (String stock : stockNames) {
       holdings.put(stock, Integer.valueOf(0));
     }
+    this.marketplace = marketplace;
   }
   
   public int getScore() {
-    return score;
+    
   }
   
   public String getName() {
