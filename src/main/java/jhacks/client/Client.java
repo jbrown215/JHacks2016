@@ -11,6 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Client {
+  public void onReadData(String data) {
+    System.out.println(data);
+  }
   public static void main(String args[]) {
     try {
       Socket serverSocket = new Socket("127.0.0.1", 15213);
@@ -29,9 +32,12 @@ public class Client {
       } catch (JSONException e) {
         e.printStackTrace();
       }
+      
+      Client client = new Client();
+      
       while(true) {
         String val = socketReader.readLine();
-//        System.out.println(val);
+        client.onReadData(val);
       }
     } catch (UnknownHostException e) {
       e.printStackTrace();
