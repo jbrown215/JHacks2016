@@ -15,13 +15,29 @@ public class Market {
   // LEFT is buy, RIGHT is sell
   private Map<String, Pair<List<Order>, List<Order>>> marketInfo = new HashMap<>();
   // Name of all the stocks in this game instance
-  private Set<String> stockNames = new HashSet<String>();
+  private Map<String, Double> securities;
+
   
-  public Market(Set<String> stockNames) {
-    this.stockNames = stockNames;
+  //ETFs
+  ETF JHackIsrael;
+  ETF JHackTechnology;
+  
+  public Market() {
+    securities = new HashMap<>();
+    
+    //Security names
+    securities.put("HackingInc", 0.0);
+    securities.put("Maryland", 0.0);
+    securities.put("Walmart", 0.0);
+    securities.put("CyberTech", 0.0);
+    securities.put("IsraelTech", 0.0);
+    
+    ETF JHackIsrael = new ETF();
+    ETF JHackTechnology = new ETF();
+    
   }
   
-  public void addBuyOrder(String securityName, double price, int quantity, int orderID, String userName) {
+  public void addBuyOrder(String securityName, double price, int quantity, String userName) {
     if (marketInfo.get(securityName) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
@@ -29,7 +45,7 @@ public class Market {
     }
     
     Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
-    securities.getLeft().add(new Order(securityName, price, quantity, orderID, userName));
+    securities.getLeft().add(new Order(securityName, price, quantity, userName));
   }
   
   public void addSellOrder(String securityName, double price, int quantity, int orderID, String userName) {
@@ -40,12 +56,12 @@ public class Market {
     }
     
     Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
-    securities.getRight().add(new Order(securityName, price, quantity, orderID, userName));
+    securities.getRight().add(new Order(securityName, price, quantity, userName));
   }
   
   public void cancelOrder(String securityName, double price, int quantity, int orderID, String userName) {
 	Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
-	Order temp = new Order(securityName, price, quantity, orderID, userName);
+	Order temp = new Order(securityName, price, quantity, userName);
 	if (securities.getRight().contains(temp)) {
 		securities.getRight().remove(temp);
 		System.out.println("Cancel Success");
@@ -58,11 +74,11 @@ public class Market {
 	}
   }
   
-  public void unPack(){
+  public void unPack(ETF etf){
 	  return;
   }
   
-  public void Pack(){
+  public void Pack(ETF etf){
 	  return;
   }
 }

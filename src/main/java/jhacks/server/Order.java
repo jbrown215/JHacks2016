@@ -4,14 +4,12 @@ public class Order {
   private final String securityName;
   private final double price;
   private final int quantity;
-  private final int orderID;
   private final String userName;
   
-  public Order(String securityName, double price, int quantity, int orderID, String userName) {
+  public Order(String securityName, double price, int quantity, String userName) {
     this.securityName = securityName;
     this.price = price;
     this.quantity = quantity;
-    this.orderID = orderID;
     this.userName = userName;
   }
   
@@ -25,10 +23,6 @@ public class Order {
   
   public int getQuantity() {
     return this.quantity;
-  }
-  
-  public int getOrderID() {
-	return this.orderID;
   }
   
   public String getUserName(){
