@@ -24,7 +24,8 @@ public class Tester {
 		buyMap.put("fb", test);
 		buyMap.put("apple",test);
 		buyMap.put("google", test2);
-		Map sellMap = buyMap;
+		Map<String, List<Double>> sellMap = new HashMap<>();
+		sellMap.put("fb", test); sellMap.put("apple", test2); sellMap.put("google", test);
 		Map state = Main.sendStateMessage(buyMap, sellMap);
 //		JSONObject trade = Main.sendTradeMessage("fb", 5.);
 		System.out.println(state);
