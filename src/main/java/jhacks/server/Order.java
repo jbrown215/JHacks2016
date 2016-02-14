@@ -18,4 +18,8 @@ public class Order {
   public double getPrice() {
     return this.price;
   }
+  
+  public int getQuantity() {
+    return this.quantity;
+  }
 }
