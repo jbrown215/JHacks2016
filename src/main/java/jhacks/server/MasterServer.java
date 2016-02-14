@@ -24,24 +24,28 @@ public class MasterServer {
 
     System.out.println("Listening for incoming commands on port ");
 
+    int counter = 0;
     while (true) {
-    try {
+      try {
         Socket clientSocket = serverSocket.accept();
-        System.out.println("recieved connection");
-        clientConnections.offer(clientSocket);
-        if (clientConnections.size() >= 2) {
+        counter++;
+        if (counter % 2 != 0) {
+          clientConnections.offer(clientSocket);
+        }
+        if (clientConnections.size() >= 2 && counter % 2 != 0) {
+          System.out.println("starting game...");
           Socket client1 = clientConnections.poll();
           Socket client2 = clientConnections.poll();
           GameRunnable game = new GameRunnable(client1, client2);
           Thread t = new Thread(game);
           t.start();
         }
+        counter = counter % 2;
       } catch (IOException e) {
         System.out.println("Error while listening for incoming connections.");
         break;
       }
     }
-    
 
     try {
       serverSocket.close();
