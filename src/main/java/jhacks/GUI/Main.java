@@ -118,7 +118,7 @@ public class Main extends ApplicationFrame {
 	private static int numWindow = 5;
 	private DynamicTimeSeriesCollection dataset;
 	final Queue<Map<String, Double>> dataQueue;
-	private static final String[] name;
+	private static String[] name;
 
 	public Main(final String title, double price) {
 		super(title);
@@ -227,6 +227,12 @@ public class Main extends ApplicationFrame {
 			@Override
 			public void run() {
 				name = new String[5];
+				
+				name[0] = "google";
+				name[1] = "moogle";
+				name[2] = "foogle";
+				name[3] = "throogle";
+				name[4] = "boogle";
 				for(int i = 0; i< numWindow; i++){
 				Main demo = new Main(name[i], 20.0);
 				demo.pack();
