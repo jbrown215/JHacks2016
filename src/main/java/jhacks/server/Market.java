@@ -16,32 +16,8 @@ public class Market {
   // LEFT is buy, RIGHT is sell
   private Map<String, Pair<List<Order>, List<Order>>> marketInfo = new HashMap<>();
   // Name of all the stocks in this game instance
-<<<<<<< HEAD
-  private Map<String, Double> securities;
 
-  
-  //ETFs
-  ETF JHackIsrael;
-  ETF JHackTechnology;
-  
-  public Market() {
-    securities = new HashMap<>();
-    
-    //Security names
-    securities.put("HackingInc", 0.0);
-    securities.put("Maryland", 0.0);
-    securities.put("Walmart", 0.0);
-    securities.put("CyberTech", 0.0);
-    securities.put("IsraelTech", 0.0);
-    
-    ETF JHackIsrael = new ETF();
-    ETF JHackTechnology = new ETF();
-    
-  }
-  
-  public void addBuyOrder(String securityName, double price, int quantity, String userName) {
-    if (marketInfo.get(securityName) == null) {
-=======
+  private Map<String, Double> securities = new HashMap<>();
   private Set<String> stockNames = new HashSet<String>();
 
   private User client1;
@@ -54,20 +30,11 @@ public class Market {
   public void addBuyOrder(String name, double price, int quantity) {
     System.out.println("adding buy order: " + name);
     if (marketInfo.get(name) == null) {
->>>>>>> 3620990dd5c5d65c40afe495b4284b573d2e762d
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
-      marketInfo.put(securityName, new Pair<List<Order>, List<Order>>(bids, asks));
+      marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
-<<<<<<< HEAD
-    
-    Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
-    securities.getLeft().add(new Order(securityName, price, quantity, userName));
-  }
-  
-  public void addSellOrder(String securityName, double price, int quantity, int orderID, String userName) {
-    if (marketInfo.get(securityName) == null) {
-=======
+
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
@@ -77,39 +44,11 @@ public class Market {
 
   public void addSellOrder(String name, double price, int quantity) {
     if (marketInfo.get(name) == null) {
->>>>>>> 3620990dd5c5d65c40afe495b4284b573d2e762d
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
-      marketInfo.put(securityName, new Pair<List<Order>, List<Order>>(bids, asks));
+      marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
-<<<<<<< HEAD
-    
-    Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
-    securities.getRight().add(new Order(securityName, price, quantity, userName));
-  }
-  
-  public void cancelOrder(String securityName, double price, int quantity, int orderID, String userName) {
-	Pair<List<Order>, List<Order>> securities = marketInfo.get(securityName);
-	Order temp = new Order(securityName, price, quantity, userName);
-	if (securities.getRight().contains(temp)) {
-		securities.getRight().remove(temp);
-		System.out.println("Cancel Success");
-	}else if (securities.getLeft().contains(temp)) {
-		securities.getLeft().remove(temp);
-		System.out.println("Cancel Success");
-	}else {
-		System.out.println("Could not locate order");
-		System.out.println("Cancel Unsuccessful");
-	}
-  }
-  
-  public void unPack(ETF etf){
-	  return;
-  }
-  
-  public void Pack(ETF etf){
-	  return;
-=======
+
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
@@ -188,6 +127,5 @@ public class Market {
     	}
     }
     
->>>>>>> 3620990dd5c5d65c40afe495b4284b573d2e762d
   }
 }
