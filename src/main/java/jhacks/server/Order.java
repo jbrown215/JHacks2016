@@ -1,20 +1,20 @@
 package jhacks.server;
 
 public class Order {
-  private final String securityName;
+  private final String name;
   private final double price;
   private final int quantity;
-  private final String userName;
+  private final String id;
   
-  public Order(String securityName, double price, int quantity, String userName) {
-    this.securityName = securityName;
+  public Order(String name, double price, int quantity, String id) {
+    this.name = name;
     this.price = price;
     this.quantity = quantity;
-    this.userName = userName;
+    this.id = id;
   }
   
   public String getName() {
-    return this.securityName;
+    return this.name;
   }
   
   public double getPrice() {
@@ -25,7 +25,7 @@ public class Order {
     return this.quantity;
   }
   
-  public String getUserName(){
-	return this.userName;
+  public String getId() {
+	return this.id;
   }
 }
