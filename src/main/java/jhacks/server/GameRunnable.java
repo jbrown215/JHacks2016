@@ -19,7 +19,10 @@ public class GameRunnable implements Runnable {
     Set<String> stocks = new HashSet<String>();
     stocks.add("GOOG");
     stocks.add("FB");
-    this.market = new Market(stocks);
+    List<Socket> sockets = new ArrayList<Socket>();
+    sockets.add(client1);
+    sockets.add(client2);
+    this.market = new Market(stocks, sockets);
   }
 
   @Override

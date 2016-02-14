@@ -1,5 +1,6 @@
 package jhacks.server;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,12 +20,14 @@ public class Market {
 
   private Map<String, Double> securities = new HashMap<>();
   private Set<String> stockNames = new HashSet<String>();
+  private List<Socket> sockets;
 
   private User client1;
   private User client2;
 
-  public Market(Set<String> stockNames) {
+  public Market(Set<String> stockNames, List<Socket> sockets) {
     this.stockNames = stockNames;
+    this.sockets = sockets;
   }
 
   public void addBuyOrder(String name, double price, int quantity) {
@@ -39,7 +42,14 @@ public class Market {
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
     securities.getLeft().add(order);
-    attemptToMakeTrade(order, true);
+    // attemptToMakeTrade(order, true);
+
+    // #NOTIFY all the users
+    ServerWriter.writeTrade(sockets, name, price);
+    Map<String, List<Double>> buyList = getBuyList(marketInfo);
+//    System.out.println(buyList);
+    Map<String, List<Double>> sellList = getSellList(marketInfo);
+    ServerWriter.writeState(sockets, buyList, sellList);
   }
 
   public void addSellOrder(String name, double price, int quantity) {
@@ -53,7 +63,7 @@ public class Market {
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
     securities.getRight().add(order);
-    attemptToMakeTrade(order, false);
+    // attemptToMakeTrade(order, false);
   }
 
   /**
@@ -153,17 +163,50 @@ public class Market {
       }
     }
   }
-  
+
   public void cancelOrder(String id) {
-    for (Pair<List<Order>,List<Order>> val: marketInfo.values()) {
-    	for(Order buyOrd: val.getLeft()) {
-    		if(id.equals(buyOrd)) {
-    		}
-    	};
-    	for(Order sellOrd: val.getRight()){
-    		;
-    	}
+    for (Pair<List<Order>, List<Order>> val : marketInfo.values()) {
+      for (Order buyOrd : val.getLeft()) {
+        if (id.equals(buyOrd)) {
+          val.getLeft().remove(id);
+        }
+      }
+      ;
+      for (Order sellOrd : val.getRight()) {
+        if (id.equals(sellOrd)) {
+          val.getRight().remove(id);
+        }
+      }
     }
-    
+
   }
-}
+  
+  public Map<String, List<Double>> getBuyList(Map<String, Pair<List<Order>, List<Order>>> marketInfo) {
+	  System.out.println(marketInfo);
+	  Map<String, List<Double>> buyList = new HashMap<String,List<Double>>();
+	  for(String key: marketInfo.keySet() ){
+		  List<Double> prices = new ArrayList<>();
+		  for(Order order: marketInfo.get(key).getLeft()) {
+		      prices.add( order.getPrice() );
+		  }
+		  buyList.put(key, prices);
+	  }
+	  return buyList;
+  }
+  
+  public Map<String, List<Double>> getSellList(Map<String, Pair<List<Order>,List<Order>>> marketInfo) {
+	  Map<String, List<Double>> sellList = new HashMap<String,List<Double>>();
+	  for(String key: marketInfo.keySet()) {
+		  List<Double> prices = new ArrayList<>();
+		  for(Order order: marketInfo.get(key).getRight()) {
+			  prices.add( order.getPrice() );
+		  }
+		  sellList.put(key,prices);
+	  }
+	  return sellList;
+  }
+
+  }
+  
+  
+
