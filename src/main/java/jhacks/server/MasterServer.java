@@ -22,18 +22,20 @@ public class MasterServer {
     System.out.println("Listening for incoming commands on port ");
 
     while (true) {
-      try {
+    try {
         Socket clientSocket = serverSocket.accept();
         ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
         out.writeObject("test");
         System.out.println("recieved connection");
         ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
         String value = (String) in.readObject();
+        System.out.print(value);
       } catch (IOException | ClassNotFoundException e) {
         System.out.println("Error while listening for incoming connections.");
         break;
       }
     }
+    
 
     try {
       serverSocket.close();
