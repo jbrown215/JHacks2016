@@ -7,7 +7,7 @@ sell
 cancel
 unpack
 connect
-pack
+pack.
 
 
 CLIENT MESSAGES:
@@ -55,4 +55,4 @@ runnable bot
 ./run.sh script 
 words
 Ayelet
-
+Jon
