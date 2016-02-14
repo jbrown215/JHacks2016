@@ -14,7 +14,8 @@ public class GameRunnable implements Runnable {
 
   @Override
   public void run() {
-    System.out.println("In a new game with socket");
+    System.out.println("Starting server readers...");
+    
   }
 
 }

@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 public class Client {
   public static void main(String args[]) {
     try {
-      Socket echoSocket = new Socket("0.tcp.ngrok.io", 18672);
+      Socket echoSocket = new Socket("127.0.0.1", 15213);
       while (true) {
       }
     } catch (UnknownHostException e) {
