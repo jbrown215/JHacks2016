@@ -3,7 +3,7 @@ package jhacks.server;
 public class Order {
   private final String name;
   private final double price;
-  private final int quantity;
+  private int quantity;
   private final String id;
   
   public Order(String name, double price, int quantity, String id) {
@@ -27,5 +27,9 @@ public class Order {
   
   public String getId() {
 	return this.id;
+  }
+  
+  public void changeQuantity(int n){
+	this.quantity = n;
   }
 }
