@@ -1,8 +1,10 @@
 package jhacks.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 
@@ -10,18 +12,21 @@ public class Tester {
 
 	public static void main(String[] args) {
 		// Test data
-		Map<String, Double[]> buyMap = new HashMap<String,Double[]>();
-		Double[] test = {5.,2.,4.,5.};
+		Map<String, List<Double>> buyMap = new HashMap<>();
+		List<Double> test = new ArrayList<>();
+		test.add(5.); test.add(9.); test.add(41.); test.add(14.);
+		test.add(60.);
+		test.add(3.);
+		test.add(20.);
+		List<Double> test2 = new ArrayList<>();
+		test2.add(9.); //test2.add(7.); test2.add(50.); test2.add(41.); test2.add(14.);
+
 		buyMap.put("fb", test);
-//		buyMap.put("apple", new Double(5));
-//		buyMap.put("google", new Double(3));
-//		buyMap.put("adi", new Double(8));
-//		buyMap.put("jon", new Double(4));
-//		buyMap.put("ayelet", new Double(15));
-//		buyMap.put("joardan", new Double(13));
-				
-//		Map state = Main.sendStateMessage(buyMap);
-		JSONObject trade = Main.sendTradeMessage("fb", 5.);
-		System.out.println(trade);
+		buyMap.put("apple",test);
+		buyMap.put("google", test2);
+		Map sellMap = buyMap;
+		Map state = Main.sendStateMessage(buyMap, sellMap);
+//		JSONObject trade = Main.sendTradeMessage("fb", 5.);
+		System.out.println(state);
 	}
 }
