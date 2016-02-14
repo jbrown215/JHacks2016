@@ -22,6 +22,7 @@ public class Market {
   }
   
   public void addBuyOrder(String name, double price, int quantity) {
+    System.out.println("adding buy order: " + name);
     if (marketInfo.get(name) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
