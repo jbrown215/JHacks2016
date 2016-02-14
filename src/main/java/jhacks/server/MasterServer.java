@@ -1,6 +1,8 @@
 package jhacks.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -28,19 +30,16 @@ public class MasterServer {
     while (true) {
       try {
         Socket clientSocket = serverSocket.accept();
-        counter++;
-        if (counter % 2 != 0) {
-          clientConnections.offer(clientSocket);
-        }
-        if (clientConnections.size() >= 2 && counter % 2 != 0) {
-          System.out.println("starting game...");
+        System.out.println("received connection");
+        clientConnections.offer(clientSocket);
+
+        while (clientConnections.size() >= 2) {
           Socket client1 = clientConnections.poll();
           Socket client2 = clientConnections.poll();
           GameRunnable game = new GameRunnable(client1, client2);
           Thread t = new Thread(game);
           t.start();
         }
-        counter = counter % 2;
       } catch (IOException e) {
         System.out.println("Error while listening for incoming connections.");
         break;
