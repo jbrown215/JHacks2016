@@ -28,9 +28,9 @@ public class Market {
       ArrayList<Order> asks = new ArrayList<Order>();
       marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
-    
+    String id = "Pass";
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
-    securities.getLeft().add(new Order(name, price, quantity));
+    securities.getLeft().add(new Order(name, price, quantity, id));
   }
   
   public void addSellOrder(String name, double price, int quantity) {
@@ -39,8 +39,17 @@ public class Market {
       ArrayList<Order> asks = new ArrayList<Order>();
       marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
-    
+    String id = "Pass";
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
-    securities.getRight().add(new Order(name, price, quantity));
+    securities.getRight().add(new Order(name, price, quantity, id));
+  }
+  
+  public void cancelOrder(int id) {
+    for (Pair<List<Order>,List<Order>> val: marketInfo.values()) {
+    	for(Order ord: val.getLeft()) {
+    		System.out.println(ord.getId());
+    	};
+    }
+    
   }
 }

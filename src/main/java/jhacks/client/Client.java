@@ -20,6 +20,8 @@ public class Client {
         pw.println(jsonConnect.toString());
         pw.println(jsonBuy.toString());
         pw.println(jsonSell.toString());
+        JSONObject jsonCancel = new JSONObject("{\"action\" : \"cancel\", \"id\": 1234}");
+        pw.println(jsonCancel.toString());
       } catch (JSONException e) {
         e.printStackTrace();
       }
