@@ -37,7 +37,6 @@ public class Main {
 
 		}
 		
-		System.out.println(buyMap.get("fb"));
 
 		// Get Lowest Sell Prices
 		for(String key: sellMap.keySet()){
@@ -47,7 +46,6 @@ public class Main {
 				sellMap.put(key, new ArrayList<>(sellMap.get(key).subList(0,5)));
 			}
 		}
-		System.out.println(buyMap.get("fb"));
 		JSONObject state = new JSONObject();
 		ArrayList<HashMap> marketInfo = new ArrayList<>();
 		HashMap info = new HashMap();

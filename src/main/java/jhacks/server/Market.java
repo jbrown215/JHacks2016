@@ -49,6 +49,10 @@ public class Market {
 //    System.out.println(buyList);
     Map<String, List<Double>> sellList = getSellList(marketInfo);
     ServerWriter.writeState(sockets, buyList, sellList);
+    
+    for(String key: marketInfo.keySet()) {
+    	System.out.println(key + "\t" + marketInfo.get(key).getClass() + marketInfo.size());
+    }
   }
 
   public void addSellOrder(String name, double price, int quantity) {
