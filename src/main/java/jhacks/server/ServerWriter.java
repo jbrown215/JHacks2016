@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
@@ -32,6 +33,20 @@ public class ServerWriter {
       }
     }
 
+  }
+  
+  public static void writeState(List<Socket> sockets, Map<String,List<Double>> buyList, 
+		  Map<String,List<Double>> sellList) {
+	  for (Socket saaket: sockets) {
+		  OutputStream toServer;
+		  try {
+			  toServer = saaket.getOutputStream();
+			  PrintWriter stateRequest = new PrintWriter(saaket.getOutputStream(), true);
+			  stateRequest.println(Main.getStateMessage(buyList, sellList).toString());
+		  } catch (IOException e) {
+			  e.printStackTrace();
+		  }
+	  }
   }
 
 }
