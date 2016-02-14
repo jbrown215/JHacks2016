@@ -1,20 +1,25 @@
 package jhacks.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Client {
   public static void main(String args[]) {
     try {
-      Socket echoSocket = new Socket("127.0.0.1", 15213);
-      while (true) {
+      Socket serverSocket = new Socket("127.0.0.1", 15213);
+      PrintWriter pw = new PrintWriter(serverSocket.getOutputStream(), true);
+      try {
+        JSONObject json = new JSONObject("{\"action\" : \"connect\", \"name\" : \"Test Name\"}");
+        pw.println(json.toString());
+      } catch (JSONException e) {
+        e.printStackTrace();
       }
+      while(true) {}
     } catch (UnknownHostException e) {
       e.printStackTrace();
     } catch (IOException e) {
