@@ -25,10 +25,10 @@ public class Market {
   private User client2;
 
   public Market(List<Socket> sockets, User client1, User client2) {
-	  this.initializeMap();
-	  this.sockets = sockets;
-	  this.client1 = client1;
-	  this.client2 = client2;
+    this.initializeMap();
+    this.sockets = sockets;
+    this.client1 = client1;
+    this.client2 = client2;
   }
 
   public void initializeMap() {
@@ -39,7 +39,8 @@ public class Market {
     securities.put("BOOG", 0.0);
   }
 
-  public void addBuyOrder(String name, double price, int quantity) {
+  public void addBuyOrder(String name, double price, int quantity, User client) {
+    ServerWriter.writeTrade(sockets, name, price);
     if (marketInfo.get(name) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
@@ -49,6 +50,7 @@ public class Market {
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
+    client.getOrders().add(order);
     securities.getLeft().add(order);
     // attemptToMakeTrade(order, true);
 
@@ -63,7 +65,8 @@ public class Market {
     }
   }
 
-  public void addSellOrder(String name, double price, int quantity) {
+  public void addSellOrder(String name, double price, int quantity, User client) {
+    ServerWriter.writeTrade(sockets, name, price);
     if (marketInfo.get(name) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
@@ -73,6 +76,7 @@ public class Market {
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
+    client.getOrders().add(order);
     securities.getRight().add(order);
     // attemptToMakeTrade(order, false);
   }
@@ -83,6 +87,7 @@ public class Market {
       for (Order other : marketInfo.get(order.getName()).getRight()) {
         // Update user holdings, user orders, and market orders
         if (other.getPrice() <= order.getPrice()) {
+          System.out.println("writing trade");
           ServerWriter.writeTrade(sockets, order.getName(), other.getPrice());
           // For equality
           if (other.getQuantity() == order.getQuantity()) {
@@ -177,6 +182,7 @@ public class Market {
     } else {
       for (Order other : marketInfo.get(order.getName()).getLeft()) {
         if (other.getPrice() >= order.getPrice()) {
+          System.out.println("writing trade");
           ServerWriter.writeTrade(sockets, order.getName(), other.getPrice());
           // For equality in quantity
           if (other.getQuantity() == order.getQuantity()) {
