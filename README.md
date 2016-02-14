@@ -7,7 +7,7 @@ sell
 cancel
 unpack
 connect
-pack
+pack.
 
 
 CLIENT MESSAGES:
@@ -54,3 +54,5 @@ Requirements from user:
 runnable bot
 ./run.sh script 
 adi
+Ayelet
+Jon
