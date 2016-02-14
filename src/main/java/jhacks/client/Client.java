@@ -13,17 +13,11 @@ public class Client {
   public static void main(String args[]) {
     try {
       Socket echoSocket = new Socket("127.0.0.1", 15213);
-      ObjectInputStream in = new ObjectInputStream(echoSocket.getInputStream());
-      String val = (String) in.readObject();
-      System.out.println(val);
-      ObjectOutputStream out = new ObjectOutputStream(echoSocket.getOutputStream());
-      out.writeObject("Hello, server");
-
+      while(true) {
+      }
     } catch (UnknownHostException e) {
       e.printStackTrace();
     } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
       e.printStackTrace();
     }
   }
