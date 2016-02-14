@@ -7,7 +7,7 @@ sell
 cancel
 unpack
 connect
-pack
+pack.
 
 
 CLIENT MESSAGES:
