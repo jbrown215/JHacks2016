@@ -33,7 +33,7 @@ public class Market {
     }
 
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
-    Order order = new Order(name, price, quantity);
+    Order order = new Order(name, price, quantity, "pass");
     securities.getLeft().add(order);
     attemptToMakeTrade(order, true);
   }
@@ -46,7 +46,7 @@ public class Market {
     }
 
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
-    Order order = new Order(name, price, quantity);
+    Order order = new Order(name, price, quantity, "pass");
     securities.getRight().add(order);
     attemptToMakeTrade(order, false);
   }
@@ -110,5 +110,14 @@ public class Market {
       }
 
     }
+  }
+  
+  public void cancelOrder(int id) {
+    for (Pair<List<Order>,List<Order>> val: marketInfo.values()) {
+    	for(Order ord: val.getLeft()) {
+    		System.out.println(ord.getId());
+    	};
+    }
+    
   }
 }

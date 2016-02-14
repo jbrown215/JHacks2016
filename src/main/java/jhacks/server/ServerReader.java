@@ -38,6 +38,12 @@ public class ServerReader implements Runnable {
       game.getMarket().addSellOrder(name, price, quantity);
     }
   }
+  
+  public void cancel(int id) {
+	synchronized(game.getMarket()) {
+		game.getMarket().cancelOrder(id);
+	}
+  }
 
   @Override
   public void run() {
@@ -54,6 +60,8 @@ public class ServerReader implements Runnable {
           this.buy(json.getString("security"), json.getDouble("price"), json.getInt("quantity"));
         } else if (json.getString("action").equals("sell")) {
           this.sell(json.getString("security"), json.getDouble("price"), json.getInt("quantity"));
+        } else if(json.getString("action").equals("cancel")) {
+          this.cancel(json.getInt("id"));
         }
       }
     } catch (IOException | JSONException e) {

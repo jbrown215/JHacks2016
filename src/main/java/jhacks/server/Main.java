@@ -24,7 +24,7 @@ import org.json.simple.JSONObject;
 
 public class Main {
 
-	public static Map sendStateMessage(Map<String,List<Double>> buyMap, 
+	public static Map getStateMessage(Map<String,List<Double>> buyMap, 
 			Map<String,List<Double>> sellMap) {
 		
 		// Iterate through keys, take 5 best bids
@@ -75,7 +75,7 @@ public class Main {
 	
 	
 	
-	public static JSONObject sendTradeMessage(String security, Double price) {
+	public static JSONObject getTradeMessage(String security, Double price) {
 		JSONObject trade = new JSONObject();
 		trade.put("subject", "trade");
 		trade.put("security", security);
