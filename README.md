@@ -13,10 +13,10 @@ pack.
 CLIENT MESSAGES:
 
 BUY:
-{ action : buy, security : name, price : $$, orderNumber : id }, returns {subject: buy confirmation, status : success/fail,  order number}
+{ action : buy, security : name, price : $$, quantity: number, orderNumber : id }, returns {subject: buy confirmation, status : success/fail,  order number}
 
 SELL:
-{action : sell, security : name, price : $$, orderNumber : id}, returns {subject : sell confirmation ,status : success/fail, order number}
+{action : sell, security : name, price : $$, quantity: number, orderNumber : id}, returns {subject : sell confirmation ,status : success/fail, order number}
 
 CONNECT:
 {action : connect, name}, returns {subject: connect confirmation, status : success/fail}

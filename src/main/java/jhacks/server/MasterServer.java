@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class MasterServer {
-  public static int mPort = 22;
+  public static int mPort = 15213;
   public static Queue<Socket> clientConnections = new LinkedList<Socket>();
 
   public static void main(String args[]) {
