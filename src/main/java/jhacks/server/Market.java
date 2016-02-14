@@ -16,6 +16,8 @@ public class Market {
   // LEFT is buy, RIGHT is sell
   private Map<String, Pair<List<Order>, List<Order>>> marketInfo = new HashMap<>();
   // Name of all the stocks in this game instance
+
+  private Map<String, Double> securities = new HashMap<>();
   private Set<String> stockNames = new HashSet<String>();
 
   private User client1;
@@ -32,6 +34,7 @@ public class Market {
       ArrayList<Order> asks = new ArrayList<Order>();
       marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
+
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
@@ -45,6 +48,7 @@ public class Market {
       ArrayList<Order> asks = new ArrayList<Order>();
       marketInfo.put(name, new Pair<List<Order>, List<Order>>(bids, asks));
     }
+
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
