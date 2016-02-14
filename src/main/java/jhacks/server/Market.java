@@ -82,7 +82,8 @@ public class Market {
   }
 
   public void attemptToMakeTrade(Order order, boolean isBuy) {
-    if (isBuy) {
+    System.out.print("Entered Method");
+	if (isBuy) {
       for (Order other : marketInfo.get(order.getName()).getRight()) {
         // Update user holdings, user orders, and market orders
         if (other.getPrice() <= order.getPrice()) {
