@@ -66,102 +66,198 @@ public class Market {
     // attemptToMakeTrade(order, false);
   }
 
-  /**
-   * This function is not correct yet. It will only fill orders with larger
-   * quantities than the bid instead of filling it incrementally.
-   * 
-   * @param order
-   * @param isBuy
-   */
+
   public void attemptToMakeTrade(Order order, boolean isBuy) {
-    if (isBuy) {
-      for (Order other : marketInfo.get(order.getName()).getRight()) {
-    	  //Update user holdings, user orders, and market orders
-    	  if (other.getPrice() <= order.getPrice()) {
-        	// For equality
-        	if (other.getQuantity() == order.getQuantity()){
-        		//User holdings
-        		if (client1.getOrders().contains(order)){
-        			client1.addHoldings(order.getName(), order.getQuantity());
-        			client2.removeHoldings(other.getName(), other.getQuantity());
-        		}else if (client2.getOrders().contains(order)){
-        			client2.addHoldings(order.getName(), order.getQuantity());
-        			client1.removeHoldings(other.getName(), other.getQuantity());
-        		}
-        		//User orders
-        		if (client1.getOrders().contains(order)) {
-        			client1.getOrders().remove(order);
-        			client2.getOrders().remove(other);
-        		} else if (client2.getOrders().contains(order)) {
-        			client2.getOrders().remove(order);
-        			client1.getOrders().remove(other);
-        		}
-        		//Remove market orders 
-        		marketInfo.remove(order.getName(), order);
-        		marketInfo.remove(order.getName(), other);
-        		
+	  if (isBuy) {
+		  for (Order other : marketInfo.get(order.getName()).getRight()) {
+			  //Update user holdings, user orders, and market orders
+			  if (other.getPrice() <= order.getPrice()) {
+				  // For equality
+				  if (other.getQuantity() == order.getQuantity()){
+					  //User holdings
+					  if (client1.getOrders().contains(order)){
+						  client1.addHoldings(order.getName(), order.getQuantity());
+						  client2.removeHoldings(other.getName(), other.getQuantity());
+					  }else if (client2.getOrders().contains(order)){
+						  client2.addHoldings(order.getName(), order.getQuantity());
+						  client1.removeHoldings(other.getName(), other.getQuantity());
+					  }
+					  //User orders
+					  if (client1.getOrders().contains(order)) {
+						  client1.getOrders().remove(order);
+						  client2.getOrders().remove(other);
+					  } else if (client2.getOrders().contains(order)) {
+						  client2.getOrders().remove(order);
+						  client1.getOrders().remove(other);
+					  }
+					  //Remove market orders 
+					  marketInfo.remove(order.getName(), order);
+					  marketInfo.remove(order.getName(), other);
 
-        	//Update orders incrementally
-        	} else if (other.getQuantity() < order.getQuantity()){
-        		//User holdings
-        		int difference = order.getQuantity() - other.getQuantity();
-        		if (client1.getOrders().contains(order)){ 
-        			client1.addHoldings(order.getName(), difference);
-        			client2.removeHoldings(other.getName(), other.getQuantity());
-        		} else if (client2.getOrders().contains(order)){
-        			client2.addHoldings(order.getName(), difference);
-        			client1.removeHoldings(other.getName(), other.getQuantity());
-        		}
-        		//User orders
-        		if (client1.getOrders().contains(order)){
-        			client1.getOrders().add(new Order(order.getName(), order.getPrice(), order.getQuantity(), order.getId()));
-        			client2.getOrders().remove(other);
-        		}else if (client2.getOrders().contains(order)){
-        			client2.getOrders().add(new Order(order.getName(), order.getPrice(), order.getQuantity(), order.getId()));
-        			client1.getOrders().remove(other);
-        		}
-        		//Remove/Change market orders
-        		marketInfo.put
-        		marketInfo.remove(other);
-        		
-        	} else if (order.getQuantity() < other.getQuantity()){
-        		
-        	}
-            //Update prices
-        	if (other.getPrice() == order.getPrice()) {
-        		String name = order.getName();
-        		
-        	}
-          
-          System.out.println("TODO update order");
-        }
-        break;
-      }
-    } else {
-      for (Order other : marketInfo.get(order.getName()).getLeft()) {
-        if (other.getPrice() >= order.getPrice()) {
-          // update user holdings
-          // update orders
-          if (client1.getOrders().contains(order)) {
-            client1.getOrders().remove(order);
-            client2.getOrders().remove(other);
-          } else {
-            client2.getOrders().remove(order);
-            client1.getOrders().remove(other);
-          }
 
-          if (client2.getOrders().contains(order)) {
-            client2.getOrders().remove(order);
-            client1.getOrders().remove(other);
+					  //For inequality
+				  } else if (other.getQuantity() < order.getQuantity()){
+					  //User holdings
+					  int difference = order.getQuantity() - other.getQuantity();
+					  if (client1.getOrders().contains(order)){ 
+						  client1.addHoldings(order.getName(), other.getQuantity());
+						  client2.removeHoldings(other.getName(), other.getQuantity());
+					  } else if (client2.getOrders().contains(order)){
+						  client2.addHoldings(order.getName(), other.getQuantity());
+						  client1.removeHoldings(other.getName(), other.getQuantity());
+					  }
+					  //User orders
+					  if (client1.getOrders().contains(order)){
+						  client1.getOrders().add(new Order(order.getName(), order.getPrice(), difference, order.getId()));
+						  client1.getOrders().remove(order);
+						  client2.getOrders().remove(other);
+					  }else if (client2.getOrders().contains(order)){
+						  client2.getOrders().add(new Order(order.getName(), order.getPrice(), difference, order.getId()));
+						  client2.getOrders().remove(order);
+						  client1.getOrders().remove(other);
+					  }
+					  //Remove/Change market orders
+					  marketInfo.remove(other);
+					  for (Order find : marketInfo.get(order.getName()).getRight()) {
+						  if (find == order){
+							  find.changeQuantity(difference);
+						  }
+					  }
+					  //Other inequality
+				  } else if (order.getQuantity() < other.getQuantity()){
+					  //User holdings
+					  int difference = other.getQuantity() - order.getQuantity();
+					  if (client1.getOrders().contains(other)){ 
+						  client1.addHoldings(other.getName(), order.getQuantity());
+						  client2.removeHoldings(order.getName(), order.getQuantity());
+					  } else if (client2.getOrders().contains(other)){
+						  client2.addHoldings(other.getName(), order.getQuantity());
+						  client1.removeHoldings(order.getName(), order.getQuantity());
+					  }
+					  //User orders
+					  if (client1.getOrders().contains(other)){
+						  client1.getOrders().add(new Order(other.getName(), other.getPrice(), difference, other.getId()));
+						  client1.getOrders().remove(other);
+						  client2.getOrders().remove(order);
+					  }else if (client2.getOrders().contains(order)){
+						  client2.getOrders().add(new Order(other.getName(), other.getPrice(), difference, other.getId()));
+						  client2.getOrders().remove(other);
+						  client1.getOrders().remove(order);
+					  }
+					  //Remove/Change market orders
+					  marketInfo.remove(order);
+					  for (Order find : marketInfo.get(other.getName()).getRight()) {
+						  if (find == other){
+							  find.changeQuantity(difference);
+						  }
+					  }
 
-          } else {
-            client1.getOrders().remove(order);
-            client2.getOrders().remove(other);
-          }
-        }
-        System.out.println("TODO update order");
-      }
-    }
+				  }
+				  //Update prices
+				  if (other.getPrice() == order.getPrice()) {
+					  String name = order.getName();
+					  securities.replace(name, order.getPrice());
+				  }else if (order.getPrice() < other.getPrice()){
+					  String name = order.getName();
+					  securities.replace(name,  other.getPrice());
+				  }
+			  }
+		  }
+	  } else {
+		  for (Order other : marketInfo.get(order.getName()).getLeft()) {
+			  if (other.getPrice() >= order.getPrice()) {
+				  // For equality in quantity
+				  if (other.getQuantity() == order.getQuantity()){
+					  //User holdings
+					  if (client1.getOrders().contains(order)){
+						  client2.addHoldings(order.getName(), order.getQuantity());
+						  client1.removeHoldings(other.getName(), other.getQuantity());
+					  }else if (client2.getOrders().contains(order)){
+						  client1.addHoldings(order.getName(), order.getQuantity());
+						  client2.removeHoldings(other.getName(), other.getQuantity());
+					  }
+					  //User orders
+					  if (client1.getOrders().contains(order)) {
+						  client1.getOrders().remove(order);
+						  client2.getOrders().remove(other);
+					  } else if (client2.getOrders().contains(order)) {
+						  client2.getOrders().remove(order);
+						  client1.getOrders().remove(other);
+					  }
+					  //Remove market orders 
+					  marketInfo.remove(order.getName(), order);
+					  marketInfo.remove(order.getName(), other);
+
+
+					  //For inequality in quantity
+				  } else if (other.getQuantity() > order.getQuantity()){
+					  //User holdings
+					  int difference = order.getQuantity() - other.getQuantity();
+					  if (client1.getOrders().contains(order)){ 
+						  client2.addHoldings(other.getName(), order.getQuantity());
+						  client1.removeHoldings(order.getName(), order.getQuantity());
+					  } else if (client2.getOrders().contains(order)){
+						  client1.addHoldings(order.getName(), order.getQuantity());
+						  client2.removeHoldings(other.getName(), order.getQuantity());
+					  }
+					  //User orders
+					  if (client1.getOrders().contains(order)){
+						  client2.getOrders().add(new Order(other.getName(), other.getPrice(), difference, other.getId()));
+						  client2.getOrders().remove(other);
+						  client1.getOrders().remove(order);
+					  }else if (client2.getOrders().contains(order)){
+						  client1.getOrders().add(new Order(other.getName(), other.getPrice(), difference, other.getId()));
+						  client1.getOrders().remove(other);
+						  client2.getOrders().remove(order);
+					  }
+					  //Remove/Change market orders
+					  marketInfo.remove(order);
+					  for (Order find : marketInfo.get(other.getName()).getRight()) {
+						  if (find == other){
+							  find.changeQuantity(difference);
+						  }
+					  }
+					  //Other inequality in quantity
+				  } else if (order.getQuantity() > other.getQuantity()){
+					  //User holdings
+					  int difference = order.getQuantity() - other.getQuantity();
+					  if (client1.getOrders().contains(order)){ 
+						  client2.addHoldings(other.getName(), other.getQuantity());
+						  client1.removeHoldings(order.getName(), other.getQuantity());
+					  } else if (client2.getOrders().contains(order)){
+						  client1.addHoldings(other.getName(), other.getQuantity());
+						  client2.removeHoldings(order.getName(), other.getQuantity());
+					  }
+					  //User orders
+					  if (client1.getOrders().contains(order)){
+						  client1.getOrders().add(new Order(order.getName(), order.getPrice(), difference, order.getId()));
+						  client1.getOrders().remove(order);
+						  client2.getOrders().remove(other);
+					  }else if (client2.getOrders().contains(order)){
+						  client2.getOrders().add(new Order(order.getName(), order.getPrice(), difference, order.getId()));
+						  client2.getOrders().remove(order);
+						  client1.getOrders().remove(other);
+					  }
+					  //Remove/Change market orders
+					  marketInfo.remove(order);
+					  for (Order find : marketInfo.get(other.getName()).getRight()) {
+						  if (find == other){
+							  find.changeQuantity(difference);
+						  }
+					  }
+
+				  }
+				  //Update prices
+				  if (other.getPrice() == order.getPrice()) {
+					  String name = order.getName();
+					  securities.replace(name, order.getPrice());
+				  }else if (other.getPrice() > order.getPrice()){
+					  String name = order.getName();
+					  securities.replace(name,  other.getPrice());
+				  }
+			  }
+		  }
+	  }
   }
 
   public void cancelOrder(String id) {
