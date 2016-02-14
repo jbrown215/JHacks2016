@@ -31,7 +31,7 @@ public class Client {
       }
       while(true) {
         String val = socketReader.readLine();
-        System.out.println(val);
+//        System.out.println(val);
       }
     } catch (UnknownHostException e) {
       e.printStackTrace();

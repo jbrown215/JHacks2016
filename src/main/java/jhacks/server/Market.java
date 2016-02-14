@@ -47,7 +47,7 @@ public class Market {
     // #NOTIFY all the users
     ServerWriter.writeTrade(sockets, name, price);
     Map<String, List<Double>> buyList = getBuyList(marketInfo);
-    System.out.println(buyList);
+//    System.out.println(buyList);
     Map<String, List<Double>> sellList = getSellList(marketInfo);
     ServerWriter.writeState(sockets, buyList, sellList);
   }
@@ -127,9 +127,6 @@ public class Market {
   }
 
   public void cancelOrder(String id) {
-    for (String key : marketInfo.keySet()) {
-      System.out.println(key + "\t" + marketInfo.get(key));
-    }
     for (Pair<List<Order>, List<Order>> val : marketInfo.values()) {
       for (Order buyOrd : val.getLeft()) {
         if (id.equals(buyOrd)) {
@@ -142,9 +139,6 @@ public class Market {
           val.getRight().remove(id);
         }
       }
-    }
-    for (String key : marketInfo.keySet()) {
-      System.out.println(key + "\t" + marketInfo.get(key));
     }
 
   }
@@ -177,4 +171,4 @@ public class Market {
   }
   
   
-}
+
