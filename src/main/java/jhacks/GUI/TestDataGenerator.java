@@ -62,6 +62,9 @@ public class TestDataGenerator implements Runnable {
         e.printStackTrace();
       }
 
+      RandomTrade trader = new RandomTrade(serverSocket);
+      Thread t = new Thread(trader);
+      t.start();
       Timer timer = new Timer(100, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent arg0) {
@@ -70,7 +73,6 @@ public class TestDataGenerator implements Runnable {
           try {
             val = socketReader.readLine();
             JSONObject obj = stringToJSON(val);
-            System.out.println(val);
             if (obj.getString("subject").equals("trade")) {
               mapVal.put("price", obj.getDouble("price"));
               map.get(obj.get("security")).offer(mapVal);
