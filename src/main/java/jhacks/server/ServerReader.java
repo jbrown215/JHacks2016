@@ -26,6 +26,18 @@ public class ServerReader implements Runnable {
       System.out.println(name);
     }
   }
+  
+  public void buy(String name, double price, int quantity) {
+    synchronized(game.getMarket()) {
+      game.getMarket().addBuyOrder(name, price, quantity);
+    }
+  }
+
+  public void sell(String name, double price, int quantity) {
+    synchronized(game.getMarket()) {
+      game.getMarket().addSellOrder(name, price, quantity);
+    }
+  }
 
   @Override
   public void run() {
@@ -38,6 +50,10 @@ public class ServerReader implements Runnable {
         JSONObject json = new JSONObject(str);
         if (json.getString("action").equals("connect")) {
           this.connect(json.getString("name"));
+        } else if (json.getString("action").equals("buy")) {
+          this.buy(json.getString("security"), json.getDouble("price"), json.getInt("quantity"));
+        } else if (json.getString("action").equals("sell")) {
+          this.sell(json.getString("security"), json.getDouble("price"), json.getInt("quantity"));
         }
       }
     } catch (IOException | JSONException e) {

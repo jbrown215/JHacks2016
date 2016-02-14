@@ -14,8 +14,12 @@ public class Client {
       Socket serverSocket = new Socket("127.0.0.1", 15213);
       PrintWriter pw = new PrintWriter(serverSocket.getOutputStream(), true);
       try {
-        JSONObject json = new JSONObject("{\"action\" : \"connect\", \"name\" : \"Test Name\"}");
-        pw.println(json.toString());
+        JSONObject jsonConnect = new JSONObject("{\"action\" : \"connect\", \"name\" : \"Test Name\"}");
+        JSONObject jsonBuy = new JSONObject("{\"action\" : \"buy\", \"security\" : \"GOOG\", \"price\" : 25.00, \"quantity\" : 10}");
+        JSONObject jsonSell = new JSONObject("{\"action\" : \"sell\", \"security\" : \"GOOG\", \"price\" : 25.00, \"quantity\" : 10}");
+        pw.println(jsonConnect.toString());
+        pw.println(jsonBuy.toString());
+        pw.println(jsonSell.toString());
       } catch (JSONException e) {
         e.printStackTrace();
       }
