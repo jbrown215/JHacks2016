@@ -24,9 +24,11 @@ public class MainWindow extends JPanel {
         loadButton.addActionListener(listener);
         add(findGameButton);
         
+       
+ 
        filePath = listener.getFile();
-       String[] file = {filePath};
-       PythonReader.main(file);
+       //String[] file = {filePath};
+//       PythonReader.fileReader(filePath);
     }
 	
 	private static void createAndShowGUI() {
@@ -42,15 +44,21 @@ public class MainWindow extends JPanel {
 		//Display the window.
 		frame.pack();
 		frame.setVisible(true);
+		
+//		PythonReader.fileReader(filePath);
 		}
 
 	public static void main(String[] args) {
 		//Schedule a job for the event-dispatching thread:
 		//creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			String filePath;
 			public void run() {
 					createAndShowGUI();
+					if(filePath != null)
+						PythonReader.fileReader(filePath);
 				}
+			
 		}
 		);
 	}
