@@ -8,6 +8,7 @@ import javax.swing.*;
 public class MainWindow extends JPanel {
 
 	protected JButton loadButton, /*saveButton*/ findGameButton;
+	public String filePath;
 	
 	public MainWindow(){
 
@@ -18,7 +19,7 @@ public class MainWindow extends JPanel {
         findGameButton.setToolTipText("Click this button to find game.");
 
         add(loadButton);
-        ActionListener listener = new LoadButtonActionListener(this);
+        LoadButtonActionListener listener = new LoadButtonActionListener(this);
         loadButton.addActionListener(listener);
         add(findGameButton);
         
@@ -33,6 +34,7 @@ public class MainWindow extends JPanel {
         System.out.println(fc.getSelectedFile().getAbsolutePath());
 //limit to .SH files
         */
+       filePath = listener.getFile();
     }
 	
 	private static void createAndShowGUI() {

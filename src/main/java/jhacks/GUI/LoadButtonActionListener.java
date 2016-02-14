@@ -8,27 +8,24 @@ public class LoadButtonActionListener implements ActionListener {
 
 	private JPanel frame;
 	final JFileChooser fc = new JFileChooser();
-	int returnVal;
-	File file;
+//	int returnVal;
+	private String filePath;
 
     public LoadButtonActionListener(JPanel frame) {
     	
-    	this.frame = frame;
-    	
+    	this.frame = frame;	
     }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//this.fc = new JFileChooser();
 		fc.showOpenDialog(frame);
-		
+		e.getSource();
+		filePath = fc.getSelectedFile().getAbsolutePath();
+		System.out.println(filePath);
 	}
-	/*
+	
 	public String getFile(){
-		if(returnVal == fc.APPROVE_OPTION){
-			String filePath = fc.getSelectedFile().getAbsolutePath();
-			System.out.println(filePath);
-			return filePath;
-	}*/
+		return filePath;
+	}
 	//method that saves the file selected
 }
