@@ -21,8 +21,13 @@ public class User {
     this.marketplace = marketplace;
   }
   
-  public int getScore() {
-    
+  public double getScore() {
+	double score = 0;
+	for (Map.Entry<String, Integer> entry : holdings.entrySet()){
+    	Double temp = entry.getValue() * (marketplace.securities.get(entry.getKey()));
+    	score += temp;
+    }
+	return score;
   }
   
   public String getName() {

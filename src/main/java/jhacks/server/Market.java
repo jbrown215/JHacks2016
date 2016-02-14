@@ -18,7 +18,7 @@ public class Market {
   private Map<String, Pair<List<Order>, List<Order>>> marketInfo = new HashMap<>();
   // Name of all the stocks in this game instance
 
-  private Map<String, Double> securities = new HashMap<>();
+  public Map<String, Double> securities = new HashMap<>();
   private List<Socket> sockets;
 
   private User client1;
