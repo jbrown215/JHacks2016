@@ -1,6 +1,7 @@
 package jhacks.server;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -26,7 +27,9 @@ public class MasterServer {
         ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
         out.writeObject("test");
         System.out.println("recieved connection");
-      } catch (IOException e) {
+        ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+        String value = (String) in.readObject();
+      } catch (IOException | ClassNotFoundException e) {
         System.out.println("Error while listening for incoming connections.");
         break;
       }
