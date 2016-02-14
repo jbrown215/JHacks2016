@@ -1,4 +1,5 @@
 package jhacks.GUI;
+import jhacks.client.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,18 +24,9 @@ public class MainWindow extends JPanel {
         loadButton.addActionListener(listener);
         add(findGameButton);
         
-       /* JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new java.io.File,('locationOnComputer'));
-        fc.setDialogTitle("Hello World");
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        
-        if(fc.showOpenDialog(button1)==JFileChooser.APPROVE_OPTION) {
-        	
-        }
-        System.out.println(fc.getSelectedFile().getAbsolutePath());
-//limit to .SH files
-        */
        filePath = listener.getFile();
+       String[] file = {filePath};
+       PythonReader.main(file);
     }
 	
 	private static void createAndShowGUI() {
@@ -62,12 +54,6 @@ public class MainWindow extends JPanel {
 		}
 		);
 	}
-
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    // TODO Auto-generated method stub
-    
-  }
 	
 }
 
