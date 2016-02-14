@@ -19,15 +19,22 @@ public class Market {
   // Name of all the stocks in this game instance
 
   private Map<String, Double> securities = new HashMap<>();
-  private Set<String> stockNames = new HashSet<String>();
   private List<Socket> sockets;
 
   private User client1;
   private User client2;
 
-  public Market(Set<String> stockNames, List<Socket> sockets) {
-    this.stockNames = stockNames;
+  public Market(Map<String, Double> securities, List<Socket> sockets) {
+    this.securities = securities;
     this.sockets = sockets;
+  }
+  
+  public void initializeMap(){
+	  securities.put("GOOG", 0.0);
+	  securities.put("MOOG", 0.0);
+	  securities.put("FOOD", 0.0);
+	  securities.put("THROOG", 0.0);
+	  securities.put("BOOG", 0.0);
   }
 
   public void addBuyOrder(String name, double price, int quantity) {
@@ -163,7 +170,7 @@ public class Market {
 					  securities.replace(name, order.getPrice());
 				  }else if (order.getPrice() < other.getPrice()){
 					  String name = order.getName();
-					  securities.replace(name,  other.getPrice());
+					  securities.replace(name, other.getPrice());
 				  }
 			  }
 		  }
