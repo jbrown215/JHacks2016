@@ -46,9 +46,10 @@ public class Market {
     // #NOTIFY all the users
     ServerWriter.writeTrade(sockets, name, price);
     Map<String, List<Double>> buyList = getBuyList(marketInfo);
-//    System.out.println(buyList);
+    // System.out.println(buyList);
     Map<String, List<Double>> sellList = getSellList(marketInfo);
     ServerWriter.writeState(sockets, buyList, sellList);
+    ServerWriter.writeTrade(sockets, "GOOG", 100.00);
   }
 
   public void addSellOrder(String name, double price, int quantity) {
@@ -61,7 +62,7 @@ public class Market {
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
-    securities.getRight().add(order);
+ securities.getRight().add(order);
     // attemptToMakeTrade(order, false);
   }
 
@@ -179,32 +180,29 @@ public class Market {
     }
 
   }
-  
+
   public Map<String, List<Double>> getBuyList(Map<String, Pair<List<Order>, List<Order>>> marketInfo) {
-	  Map<String, List<Double>> buyList = new HashMap<String,List<Double>>();
-	  for(String key: marketInfo.keySet() ){
-		  List<Double> prices = new ArrayList<>();
-		  for(Order order: marketInfo.get(key).getLeft()) {
-		      prices.add( order.getPrice() );
-		  }
-		  buyList.put(key, prices);
-	  }
-	  return buyList;
-  }
-  
-  public Map<String, List<Double>> getSellList(Map<String, Pair<List<Order>,List<Order>>> marketInfo) {
-	  Map<String, List<Double>> sellList = new HashMap<String,List<Double>>();
-	  for(String key: marketInfo.keySet()) {
-		  List<Double> prices = new ArrayList<>();
-		  for(Order order: marketInfo.get(key).getRight()) {
-			  prices.add( order.getPrice() );
-		  }
-		  sellList.put(key,prices);
-	  }
-	  return sellList;
+    Map<String, List<Double>> buyList = new HashMap<String, List<Double>>();
+    for (String key : marketInfo.keySet()) {
+      List<Double> prices = new ArrayList<>();
+      for (Order order : marketInfo.get(key).getLeft()) {
+        prices.add(order.getPrice());
+      }
+      buyList.put(key, prices);
+    }
+    return buyList;
   }
 
+  public Map<String, List<Double>> getSellList(Map<String, Pair<List<Order>, List<Order>>> marketInfo) {
+    Map<String, List<Double>> sellList = new HashMap<String, List<Double>>();
+    for (String key : marketInfo.keySet()) {
+      List<Double> prices = new ArrayList<>();
+      for (Order order : marketInfo.get(key).getRight()) {
+        prices.add(order.getPrice());
+      }
+      sellList.put(key, prices);
+    }
+    return sellList;
   }
-  
-  
 
+}
