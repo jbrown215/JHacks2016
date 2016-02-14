@@ -24,27 +24,33 @@ import org.json.simple.JSONObject;
 
 public class Main {
 
-	public static Map sendStateMessage(Map<String, Double> buyMap) {
+	public static Map sendStateMessage(Map<String, Double[]> buyMap) {
 		
-		// Get top 5 sells
-		ArrayList<String> top5sells = new ArrayList<>();
-		List<Double> vals = new ArrayList<>(buyMap.values());
-		Collections.sort(vals, Collections.reverseOrder());
-		for(int i=0; i<5; i++){
-			top5sells.add(vals.get(i).toString());
-		}
-		System.out.println(top5sells);
+		// Get top 5 buy orders/bids
+		ArrayList<String> top5bids = new ArrayList<>();
+//		top5
+//		List<Double> vals = new ArrayList<>(buyMap.values());
+//		Collections.sort(vals, Collections.reverseOrder());
+		
+		System.out.println(top5bids);
+		
+	   
+
 		
 		// TYPE??
 		JSONObject state = new JSONObject();
-		Map marketInfo = new HashMap();
-
+		ArrayList<Pair> marketInfo = new ArrayList<>();
+		HashMap info = new HashMap();
+		info.put("name", top5bids.get(0));
+		info.put("bids", buyMap.get( top5bids.get(0) ));
+		
 	    state.put("subject", "state");
 	    state.put("marketInfo", "PASS____");
 
 	    System.out.print(state);
 		
 	    JSONObject trade = new JSONObject();
+	    
 		return state;
 	    
 	    /*
@@ -53,6 +59,15 @@ public class Main {
 	      {subject : trade, security: name, price : $$}
 	      [ {name: stock, [bids], [asks] }
 	      */
+	}
+	
+	public static JSONObject sendTradeMessage(String security, Double price) {
+		JSONObject trade = new JSONObject();
+		trade.put("subject", "trade");
+		trade.put("security", security);
+		trade.put("price", price);
+		
+		return trade;
 	}
 }
 
