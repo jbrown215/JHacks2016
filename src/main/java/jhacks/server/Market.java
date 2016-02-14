@@ -42,8 +42,8 @@ public class Market {
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
     securities.getLeft().add(order);
-    //attemptToMakeTrade(order, true);
-    
+    // attemptToMakeTrade(order, true);
+
     // #NOTIFY all the users
     ServerWriter.writeTrade(sockets, name, price);
   }
@@ -59,7 +59,7 @@ public class Market {
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
     securities.getRight().add(order);
-    //attemptToMakeTrade(order, false);
+    // attemptToMakeTrade(order, false);
   }
 
   /**
@@ -121,17 +121,27 @@ public class Market {
       }
     }
   }
-  
+
   public void cancelOrder(String id) {
-    for (Pair<List<Order>,List<Order>> val: marketInfo.values()) {
-    	for(Order buyOrd: val.getLeft()) {
-    		if(id.equals(buyOrd)) {
-    		}
-    	};
-    	for(Order sellOrd: val.getRight()){
-    		;
-    	}
+    for (String key : marketInfo.keySet()) {
+      System.out.println(key + "\t" + marketInfo.get(key));
     }
-    
+    for (Pair<List<Order>, List<Order>> val : marketInfo.values()) {
+      for (Order buyOrd : val.getLeft()) {
+        if (id.equals(buyOrd)) {
+          val.getLeft().remove(id);
+        }
+      }
+      ;
+      for (Order sellOrd : val.getRight()) {
+        if (id.equals(sellOrd)) {
+          val.getRight().remove(id);
+        }
+      }
+    }
+    for (String key : marketInfo.keySet()) {
+      System.out.println(key + "\t" + marketInfo.get(key));
+    }
+
   }
 }

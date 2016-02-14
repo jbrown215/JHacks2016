@@ -39,9 +39,9 @@ public class ServerReader implements Runnable {
     }
   }
 
-  public void cancel(int id) {
+  public void cancel(String id) {
     synchronized (game.getMarket()) {
-  //    game.getMarket().cancelOrder(id);
+      game.getMarket().cancelOrder(id);
     }
   }
 
@@ -61,7 +61,8 @@ public class ServerReader implements Runnable {
         } else if (json.getString("action").equals("sell")) {
           this.sell(json.getString("security"), json.getDouble("price"), json.getInt("quantity"));
         } else if (json.getString("action").equals("cancel")) {
-          // this.cancel(json.getInt("id"));
+          System.out.println(json.get("id"));
+          this.cancel(json.getString("id"));
         }
       }
     } catch (IOException | JSONException e) {
