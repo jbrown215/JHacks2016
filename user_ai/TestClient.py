@@ -1,6 +1,7 @@
 from twisted.internet.protocol import Protocol, ClientFactory
 from twisted.internet import reactor
 import json
+import random
 
 CURRENT_ORDER_ID = 0
 
@@ -23,20 +24,22 @@ class Echo(Protocol):
     #Runs every time a message is sent out from the server
     def dataReceived(self, data):
         print("got stuff!")
-        #Take input of market and convert to readable python format
-        for count in range(2,len(data)-3):
-            if data[count] == "{":
-                data = data[:count] + "[" + data[count+1:]
-            elif data[count] == "}":
-                data = data[:count] + "]" + data[count+1:]
-        #json reads it in and turns it into a python dictionary
-        print(data)
-        data = json.loads(data)
-        print("worked the data!")
-        if (data["subject"] == "state"):
-            return self.workData(data)
-        else:
-            print ("not in state mode")
+        try:
+            for line in data.split("\n"):
+                if line:
+                    #Take input of market and convert to readable python format
+                    #json reads it in and turns it into a python dictionary
+                    print(data)
+                    line = json.loads(line.strip())
+                    print("worked the data!")
+                    #if (data["subject"] == "state"):
+                    #    return self.workData(data)
+                    #else:
+                    #    print ("not in state mode")
+                    self.buy("MOOG", random.randint(50, 100), 23)
+                    self.buy("GOOG", random.randint(50, 100), 10)
+        except ValueError:
+            print "nah"
 
     #This function decides what the bot would want to buy
     #The bot just wants to buy 5 of the lowest priced stock
@@ -52,7 +55,7 @@ class Echo(Protocol):
 
     def connectionMade(self):
         print (":)")
-        self.buy("GOOG", 100.0, 10)
+        self.buy("GOOG", random.randint(50, 100), 10)
 
 class EchoClientFactory(ClientFactory):
 
