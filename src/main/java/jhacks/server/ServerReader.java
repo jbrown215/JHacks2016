@@ -14,9 +14,11 @@ public class ServerReader implements Runnable {
 
   private Socket client;
   private GameRunnable game;
+  private User user;
 
-  public ServerReader(Socket client, GameRunnable game) {
+  public ServerReader(Socket client, GameRunnable game, User user) {
     this.client = client;
+    this.user = user;
     this.game = game;
   }
 
@@ -29,13 +31,13 @@ public class ServerReader implements Runnable {
 
   public void buy(String name, double price, int quantity) {
     synchronized (game.getMarket()) {
-      game.getMarket().addBuyOrder(name, price, quantity);
+      game.getMarket().addBuyOrder(name, price, quantity, user);
     }
   }
 
   public void sell(String name, double price, int quantity) {
     synchronized (game.getMarket()) {
-      game.getMarket().addSellOrder(name, price, quantity);
+      game.getMarket().addSellOrder(name, price, quantity, user);
     }
   }
 

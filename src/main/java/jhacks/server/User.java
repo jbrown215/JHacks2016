@@ -10,7 +10,7 @@ public class User {
   private Set<Order> orders;
   private String name;
   private int score;
-  private Market marketplace;
+  Market marketplace;
   
   public User(Set<String> stockNames, Market marketplace) {
     holdings = new HashMap<String, Integer>();

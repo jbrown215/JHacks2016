@@ -73,9 +73,7 @@ public class TestDataGenerator implements Runnable {
             System.out.println(val);
             if (obj.getString("subject").equals("trade")) {
               mapVal.put("price", obj.getDouble("price"));
-              System.out.println(obj.getDouble("price"));
               map.get(obj.get("security")).offer(mapVal);
-              System.out.println("offering");
             }
           } catch (IOException e) {
             // TODO Auto-generated catch block

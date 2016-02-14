@@ -25,10 +25,10 @@ public class Market {
   private User client2;
 
   public Market(List<Socket> sockets, User client1, User client2) {
-	  this.initializeMap();
-	  this.sockets = sockets;
-	  this.client1 = client1;
-	  this.client2 = client2;
+    this.initializeMap();
+    this.sockets = sockets;
+    this.client1 = client1;
+    this.client2 = client2;
   }
 
   public void initializeMap() {
@@ -39,7 +39,7 @@ public class Market {
     securities.put("BOOG", 0.0);
   }
 
-  public void addBuyOrder(String name, double price, int quantity) {
+  public void addBuyOrder(String name, double price, int quantity, User client) {
     if (marketInfo.get(name) == null) {
       ArrayList<Order> bids = new ArrayList<Order>();
       ArrayList<Order> asks = new ArrayList<Order>();
@@ -49,6 +49,7 @@ public class Market {
     String id = UUID.randomUUID().toString();
     Pair<List<Order>, List<Order>> securities = marketInfo.get(name);
     Order order = new Order(name, price, quantity, id);
+    client.getOrders().add(order);
     securities.getLeft().add(order);
     // attemptToMakeTrade(order, true);
 
